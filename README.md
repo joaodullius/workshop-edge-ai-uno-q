@@ -97,7 +97,7 @@ Observações:
 | 5 | `ws-lab05-laco` | Parte C: três formas de fechar o mesmo laço | servo e potenciômetro, opcionais | sim, sem servo |
 | 6 | `ws-lab06-thermo` | Parte A: o MCU lê o Modulino Thermo | Modulino Thermo | sim, sem o sensor (leituras em zero) |
 | 6 | `ws-lab06-semaforo` | variação: semáforo com Modulino Distance e Pixels | Modulino Distance e Pixels | inicia; sem os sensores não imprime nada |
-| 6 | `ws-lab06-agregacao` | Partes B e C: dois sensores, média móvel e alertas | Modulino Thermo e Distance | sim, sem os sensores |
+| 6 | `ws-lab06-agregacao` | Parte C: média móvel e alertas, com o sketch de dois sensores da Parte B | Modulino Thermo e Distance | sim, sem os sensores |
 | 6 | `ws-lab06-cloud` | Parte D: médias e alertas publicados no Arduino Cloud | Modulinos, conta Arduino Cloud | sim, sem os sensores; painel não testado |
 | 7 | `ws-lab07-captura` | captura um quadro e salva em JPEG | webcam | não |
 | 7 | `ws-lab07-fps` | mede a taxa de captura | webcam | não |
@@ -118,7 +118,7 @@ Observações:
 | 15 | `ws-lab15-agente-watchdog` | Parte C: o agente com watchdog e estado seguro | webcam | não |
 | 15 | `scripts/lab15/monitor.sh` | Parte B: registra CPU, memória e temperatura; roda no terminal da placa | | sim |
 
-O código de cada amostra é o mesmo dos blocos de código do manual. Os apps que precisam de webcam foram verificados quanto ao código e à compilação do sketch; sem câmera, a placa responde `No Camera Device Found` ao tentar iniciá-los (nos do Laboratório 7, o erro `CameraOpenError` aparece no console).
+O código de cada amostra é o mesmo dos blocos de código do manual; as que são cópia direta de um exemplo oficial mantêm os comentários originais, em inglês. Os apps que precisam de webcam foram verificados quanto ao código e à compilação do sketch; sem câmera, a placa responde `No Camera Device Found` ao tentar iniciá-los (nos do Laboratório 7, o erro `CameraOpenError` aparece no console).
 
 ## Hardware
 

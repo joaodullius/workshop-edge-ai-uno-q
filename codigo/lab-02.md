@@ -55,7 +55,7 @@ with open("assets/image.jpg", "rb") as f:
     img = f.read()
 
 out = detector.detect(img)              # aceita bytes JPEG/PNG ou uma imagem PIL
-# out = {"detection": [{"class_name": "person", "confidence": 87.3,
+# out = {"detection": [{"class_name": "person", "confidence": "87.30",
 #                       "bounding_box_xyxy": [x1, y1, x2, y2]}, ...]}
 for det in out.get("detection", []):
     print(det["class_name"], det["confidence"], det["bounding_box_xyxy"])

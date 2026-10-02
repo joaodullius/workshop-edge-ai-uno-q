@@ -85,13 +85,13 @@ def main():
     alvo = f"{args.usuario}@{args.placa}"
 
     print(f"Placa: {args.placa}   trilha: {args.trilha}")
-    for app in apps:
+    for k, app in enumerate(apps, 1):
         origem = AQUI / "apps" / app
         if not origem.is_dir():
             sys.exit(f"app ausente na pasta apps/: {app}")
         rodar(["ssh", alvo, f"rm -rf {DESTINO}/{app}"])
         rodar(["scp", "-q", "-r", str(origem), f"{alvo}:{DESTINO}/"])
-        print(f"copiado {app}", flush=True)
+        print(f"[{k}/{len(apps)}] copiado {app}", flush=True)
 
     faltou = [a for a in apps if a in webcam]
     if aquecer:
@@ -101,11 +101,11 @@ def main():
         tem_camera = cameras.strip().isdigit() and int(cameras.strip()) > 0
         if tem_camera:
             faltou = []
-        for app in apps:
+        for k, app in enumerate(apps, 1):
             if app in webcam and not tem_camera:
-                print(f"pulado (precisa de webcam, e a placa não está vendo nenhuma): {app}")
+                print(f"[{k}/{len(apps)}] pulado (precisa de webcam, e a placa não está vendo nenhuma): {app}")
                 continue
-            print(f"aquecendo {app} ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)", flush=True)
+            print(f"[{k}/{len(apps)}] aquecendo {app} ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)", flush=True)
             print(rodar(["ssh", alvo, f"arduino-app-cli app start user:{app} 2>&1 | tail -1; sleep 8; "
                                       f"arduino-app-cli app stop user:{app} 2>&1 | tail -1"], tolerar_erro=True), flush=True)
 

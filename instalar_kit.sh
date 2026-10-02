@@ -33,11 +33,14 @@ WEBCAM=" $(lista precisa-de-webcam) "
 
 echo "Placa: $PLACA   trilha: $TRILHA"
 FALTOU=""
+TOTAL=$(echo $APPS | wc -w | tr -d " ")
+K=0
 for a in $APPS; do
+  K=$((K+1))
   [ -d "$AQUI/apps/$a" ] || { echo "app ausente na pasta apps/: $a"; exit 1; }
   ssh "arduino@$PLACA" "rm -rf /home/arduino/ArduinoApps/$a"
   scp -q -r "$AQUI/apps/$a" "arduino@$PLACA:/home/arduino/ArduinoApps/"
-  echo "copiado $a"
+  echo "[$K/$TOTAL] copiado $a"
   case "$WEBCAM" in *" $a "*) FALTOU="$FALTOU $a" ;; esac
 done
 
@@ -45,9 +48,11 @@ if [ "$AQUECER" = "aquecer" ]; then
   # Há uma câmera ligada à placa? (o decodificador Venus aparece como dispositivo de vídeo, mas não é câmera)
   CAMERAS=$(ssh "arduino@$PLACA" "v4l2-ctl --list-devices 2>/dev/null | grep -v '^[[:space:]]' | grep -v -i venus | grep -c . || true")
   [ "${CAMERAS:-0}" -gt 0 ] 2>/dev/null && FALTOU=""
+  K=0
   for a in $APPS; do
-    case " $FALTOU " in *" $a "*) echo "pulado (precisa de webcam, e a placa não está vendo nenhuma): $a"; continue ;; esac
-    echo "aquecendo $a ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)"
+    K=$((K+1))
+    case " $FALTOU " in *" $a "*) echo "[$K/$TOTAL] pulado (precisa de webcam, e a placa não está vendo nenhuma): $a"; continue ;; esac
+    echo "[$K/$TOTAL] aquecendo $a ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)"
     ssh "arduino@$PLACA" "arduino-app-cli app start user:$a 2>&1 | tail -1; sleep 8; arduino-app-cli app stop user:$a 2>&1 | tail -1" || true
   done
 fi
