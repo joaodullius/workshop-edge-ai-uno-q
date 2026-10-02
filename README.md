@@ -3,11 +3,14 @@
 Material de apoio para o workshop de Edge AI com a placa Arduino UNO Q 4GB:
 
 - **`manual/`**: o Manual do Laboratório de IA Edge 1, com 16 laboratórios (PDF);
+- **`slides/`**: os slides dos 16 laboratórios, em PDF, na mesma ordem do manual;
 - **`apps/`**: apps prontos do Arduino App Lab, com amostras para todos os laboratórios que têm código de app;
 - **`scripts/`**: os scripts dos laboratórios que não rodam como app (Laboratórios 10 e 15);
 - **`instalar_kit.sh`** e **`instalar_kit.py`**: instaladores que copiam os apps para uma placa e a deixam pronta para a aula;
 - **`trilhas.txt`**: quais apps entram em cada trilha do workshop;
 - **`fotos-de-teste/`**: duas fotos para o laboratório de IA em uma foto, uma com pessoa e uma sem.
+
+O manual traz o passo a passo completo de cada laboratório; os slides são o resumo usado em aula, com o código principal e os números de referência. Em um workshop curto o instrutor conduz só alguns laboratórios, ou só algumas partes deles; com este material e uma placa, dá para fazer depois o que ficou de fora.
 
 Testado com Arduino App Lab 0.10.0, `arduino-app-cli` 0.13.0 e Bricks da série 0.12.
 
