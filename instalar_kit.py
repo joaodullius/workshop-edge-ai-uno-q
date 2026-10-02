@@ -89,7 +89,9 @@ def main():
         origem = AQUI / "apps" / app
         if not origem.is_dir():
             sys.exit(f"app ausente na pasta apps/: {app}")
-        rodar(["ssh", alvo, f"rm -rf {DESTINO}/{app}"])
+        # libera o container e a rede da instalação anterior ANTES de apagar a pasta: sem isso eles ficam órfãos na placa
+        rodar(["ssh", alvo, f"arduino-app-cli app stop user:{app} >/dev/null 2>&1; "
+                            f"arduino-app-cli app destroy user:{app} >/dev/null 2>&1; rm -rf {DESTINO}/{app}"])
         rodar(["scp", "-q", "-r", str(origem), f"{alvo}:{DESTINO}/"])
         print(f"[{k}/{len(apps)}] copiado {app}", flush=True)
 

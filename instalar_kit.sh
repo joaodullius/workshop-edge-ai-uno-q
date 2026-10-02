@@ -38,7 +38,8 @@ K=0
 for a in $APPS; do
   K=$((K+1))
   [ -d "$AQUI/apps/$a" ] || { echo "app ausente na pasta apps/: $a"; exit 1; }
-  ssh "arduino@$PLACA" "rm -rf /home/arduino/ArduinoApps/$a"
+  # libera o container e a rede da instalação anterior ANTES de apagar a pasta: sem isso eles ficam órfãos na placa
+  ssh "arduino@$PLACA" "arduino-app-cli app stop user:$a >/dev/null 2>&1; arduino-app-cli app destroy user:$a >/dev/null 2>&1; rm -rf /home/arduino/ArduinoApps/$a"
   scp -q -r "$AQUI/apps/$a" "arduino@$PLACA:/home/arduino/ArduinoApps/"
   echo "[$K/$TOTAL] copiado $a"
   case "$WEBCAM" in *" $a "*) FALTOU="$FALTOU $a" ;; esac
