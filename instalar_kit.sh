@@ -41,7 +41,7 @@ if [ "$AQUECER" = "aquecer" ]; then
   # Os apps de vídeo com webcam não iniciam sem câmera; aquece só os que não dependem dela.
   for a in $APPS; do
     case "$WEBCAM" in *" $a "*) echo "pulado (precisa de webcam): $a"; continue ;; esac
-    echo "aquecendo $a ..."
+    echo "aquecendo $a ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)"
     ssh "arduino@$PLACA" "arduino-app-cli app start user:$a 2>&1 | tail -1; sleep 8; arduino-app-cli app stop user:$a 2>&1 | tail -1"
   done
 fi

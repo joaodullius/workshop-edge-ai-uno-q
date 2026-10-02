@@ -85,7 +85,7 @@ def main():
             if app in webcam:
                 print(f"pulado (precisa de webcam): {app}")
                 continue
-            print(f"aquecendo {app} ...", flush=True)
+            print(f"aquecendo {app} ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)", flush=True)
             saida = rodar(["ssh", alvo, f"arduino-app-cli app start user:{app} 2>&1 | tail -1; sleep 8; "
                                         f"arduino-app-cli app stop user:{app} 2>&1 | tail -1"])
             print(saida)
