@@ -89,7 +89,7 @@ ssh arduino@<nome-da-placa>.local
 
 ```bash
 # Uso de CPU por processo. O runner do modelo aparece com o comeco do nome do modelo, como yolo-x-+
-top -bn2 -d1 | grep -E "Cpu|python|gst|yolo|person|face|mobilenet" | tail -8
+top -bn2 -d1 | grep -E "Cpu|python|gst|node|yolo|person|face|mobilenet" | tail -8
 
 # Memoria
 free -h

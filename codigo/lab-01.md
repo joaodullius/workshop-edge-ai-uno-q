@@ -144,7 +144,7 @@ description: This example shows how to make the LED blink alternately from Pytho
 ```bash
 arduino-app-cli app list                                                         # lista apps e exemplos
 arduino-app-cli app start examples:core-and-foundational/01-led-blink/03-blinking-an-led-from-python
-arduino-app-cli app logs  examples:core-and-foundational/01-led-blink/03-blinking-an-led-from-python --all   # o log traz tambem a saida de execucoes anteriores do app
+arduino-app-cli app logs  examples:core-and-foundational/01-led-blink/03-blinking-an-led-from-python --all   # o log inteiro; sem --all, so as ultimas 100 linhas. Os dois trazem execucoes anteriores
 arduino-app-cli app stop  examples:core-and-foundational/01-led-blink/03-blinking-an-led-from-python
 ```
 
