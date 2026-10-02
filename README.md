@@ -102,26 +102,26 @@ Observações:
 | 6 | `ws-lab06-semaforo` | variação: semáforo com Modulino Distance e Pixels | Modulino Distance e Pixels | inicia; sem os sensores não imprime nada |
 | 6 | `ws-lab06-agregacao` | Parte C: média móvel e alertas, com o sketch de dois sensores da Parte B | Modulino Thermo e Distance | sim, sem os sensores |
 | 6 | `ws-lab06-cloud` | Parte D: médias e alertas publicados no Arduino Cloud | Modulinos, conta Arduino Cloud | sim, sem os sensores; painel não testado |
-| 7 | `ws-lab07-captura` | captura um quadro e salva em JPEG | webcam | não |
-| 7 | `ws-lab07-fps` | mede a taxa de captura | webcam | não |
-| 7 | `ws-lab07-pixels` | pixels, ordem BGR e escala de cinza | webcam | não |
-| 8 | `ws-lab08-classificacao` | classificação em vídeo, com a sonda `ws_probe.py` na pasta do app | webcam | não |
-| 8 e 9 | `ws-lab09-video` | detecção de objetos ao vivo, ponto de partida; traz a sonda `ws_probe.py` | webcam | não (o mesmo app com LED e matriz rodou) |
-| 8 e 9 | `ws-lab09-pessoa` | classificador de pessoa, com contador, LED e um boneco na matriz | webcam | sim, com webcam |
+| 7 | `ws-lab07-captura` | captura um quadro e salva em JPEG | webcam | sim, com webcam |
+| 7 | `ws-lab07-fps` | mede a taxa de captura | webcam | sim, com webcam |
+| 7 | `ws-lab07-pixels` | pixels, ordem BGR e escala de cinza | webcam | sim, com webcam |
+| 8 | `ws-lab08-classificacao` | classificação em vídeo, com a sonda `ws_probe.py` na pasta do app | webcam | sim, com webcam |
+| 8 e 9 | `ws-lab09-video` | detecção de objetos ao vivo, ponto de partida; traz a sonda `ws_probe.py` | webcam | sim, com webcam |
+| 8 e 9 | `ws-lab09-pessoa` | classificador de pessoa, com contador, LED e um boneco na matriz; traz a sonda `ws_probe.py` | webcam | sim, com webcam |
 | 9 | `ws-lab09-video-led` | Parte C: gabarito. Com uma pessoa na cena, o LED acende e a matriz mostra um boneco | webcam | sim, com webcam |
 | 9 | `ws-lab09-celular` | versão B: detecção com o vídeo do celular, ponto de partida | celular com Arduino IoT Remote | inicia e mostra a senha de pareamento; o mesmo app com LED e matriz rodou com um celular |
 | 9 | `ws-lab09-celular-led` | versão B: gabarito com contador, LED e matriz | celular com Arduino IoT Remote | sim, com um celular Android |
 | 10 | `scripts/lab10/` | `tamanho.py` e `resolucao.py`: cálculos de memória de modelos | | sim |
 | 11 | `ws-lab11-meu-detector` | app para o modelo treinado no Edge Impulse; o `.eim` é importado pelo App Lab. Traz a sonda `ws_probe.py` | webcam, conta Edge Impulse | não |
 | 12 | não há | usa o app do Laboratório 11, que já traz a sonda do Laboratório 8 | | |
-| 13 | `ws-lab13-deploy` | gabarito do app completo: detecção, página web, LED e relatório | webcam | não |
+| 13 | `ws-lab13-deploy` | gabarito do app completo: detecção, página web, LED e relatório | webcam | sim, com webcam |
 | 13 | `ws-lab13-monitor` | Parte D: CPU e memória com `psutil`, instalado pelo `requirements.txt` | internet na placa | sim |
 | 14 | `ws-lab14-agente` | gabarito do agente de borda, um alarme de presença; a matriz mostra o estado (dois olhos, triângulo de aviso, pausa) | webcam | sim, com webcam |
-| 15 | `ws-lab15-benchmark` | Parte A: intervalo entre resultados, com P95 e P99 | webcam | não |
+| 15 | `ws-lab15-benchmark` | Parte A: intervalo entre resultados, com P95 e P99 | webcam | sim, com webcam |
 | 15 | `ws-lab15-agente-watchdog` | Parte C: o agente com watchdog. Sem resultados por 5 s, desliga o alarme e pisca um X na matriz | webcam | sim, com webcam (cabo desligado e religado) |
 | 15 | `scripts/lab15/monitor.sh` | Parte B: registra CPU, memória e temperatura; roda no terminal da placa | | sim |
 
-O código de cada amostra é o mesmo dos blocos de código do manual; as que são cópia direta de um exemplo oficial mantêm os comentários originais, em inglês. Os apps marcados "sim, com webcam" rodaram com uma Logitech BRIO e uma pessoa na cena, com a matriz e o LED conferidos a olho. Os demais apps que precisam de webcam foram verificados quanto ao código e à compilação do sketch; sem câmera, a placa responde `No Camera Device Found` ao tentar iniciá-los (nos do Laboratório 7, o erro `CameraOpenError` aparece no console).
+O código de cada amostra é o mesmo dos blocos de código do manual; as que são cópia direta de um exemplo oficial mantêm os comentários originais, em inglês. Os apps marcados "sim, com webcam" rodaram com uma webcam e-con See3CAM_CU30 ou uma Logitech BRIO. Nos dos Laboratórios 9, 14 e 15 (agente com watchdog), a matriz e o LED foram conferidos a olho, com uma pessoa na cena. Os demais apps que precisam de webcam foram verificados quanto ao código e à compilação do sketch; sem câmera, a placa responde `No Camera Device Found` ao tentar iniciá-los (nos do Laboratório 7, o erro `CameraOpenError` aparece no console).
 
 ## A matriz de LED
 

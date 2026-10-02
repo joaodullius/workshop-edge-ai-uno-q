@@ -13,7 +13,7 @@ async def main():
             try:
                 msg = await asyncio.wait_for(ws.recv(), timeout=5)
             except asyncio.TimeoutError:
-                print("nenhuma mensagem em 5 s (ha alguem na frente da camera?)")
+                print("nenhuma mensagem em 5 s (o app esta rodando? a camera esta ligada?)")
                 continue
             n += 1
             dado = json.loads(msg)
