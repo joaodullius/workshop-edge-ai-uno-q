@@ -1,16 +1,50 @@
-from arduino.app_utils import App, Bridge
+from arduino.app_utils import App, Bridge, Frame
 from arduino.app_bricks.video_imageclassification import VideoImageClassification
 import time
 
 stream = VideoImageClassification(confidence=0.3, debounce_sec=0.0)
 
+# O que a matriz de LED mostra em cada estado do agente (8 linhas x 13 colunas, brilho de 0 a 7)
+ICONES = {
+    "IDLE": Frame.from_rows([        # dois olhos: vigiando
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 7, 7, 7, 0, 0, 0, 0, 0, 7, 7, 7, 0],
+        [7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 7],
+        [7, 0, 7, 0, 7, 0, 0, 0, 7, 0, 7, 0, 7],
+        [7, 0, 7, 0, 7, 0, 0, 0, 7, 0, 7, 0, 7],
+        [7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 7],
+        [0, 7, 7, 7, 0, 0, 0, 0, 0, 7, 7, 7, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]).to_board_bytes(),
+    "ALERT": Frame.from_rows([       # triangulo de aviso: alerta
+        [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 0],
+        [0, 0, 0, 7, 0, 0, 7, 0, 0, 7, 0, 0, 0],
+        [0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0],
+        [0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 0],
+        [7, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 7],
+        [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+    ]).to_board_bytes(),
+    "COOLDOWN": Frame.from_rows([    # pausa: espera entre alertas
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 7, 7, 7, 0, 0, 0, 7, 7, 7, 0, 0],
+        [0, 0, 7, 7, 7, 0, 0, 0, 7, 7, 7, 0, 0],
+        [0, 0, 7, 7, 7, 0, 0, 0, 7, 7, 7, 0, 0],
+        [0, 0, 7, 7, 7, 0, 0, 0, 7, 7, 7, 0, 0],
+        [0, 0, 7, 7, 7, 0, 0, 0, 7, 7, 7, 0, 0],
+        [0, 0, 7, 7, 7, 0, 0, 0, 7, 7, 7, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]).to_board_bytes(),
+}
+
 class DetectionTracker:
     """Memoria e regras de decisao do agente."""
 
     CONFIDENCE_THRESHOLD = 0.6   # confianca minima para contar como pessoa
-    SUSTAIN_SECONDS = 3.0        # presenca continua necessaria para alertar
+    SUSTAIN_SECONDS = 2.0        # presenca continua necessaria para alertar
     CLEAR_SECONDS = 2.0          # ausencia necessaria para encerrar o alerta
-    COOLDOWN_SECONDS = 10.0      # espera minima entre dois alertas
+    COOLDOWN_SECONDS = 5.0       # espera minima entre dois alertas
     HISTORY_SECONDS = 10.0       # quanto tempo de historico e mantido
 
     def __init__(self):
@@ -87,10 +121,22 @@ def set_led(state: bool):
         led_on = state
         Bridge.call("set_led_state", state)
 
+estado_na_matriz = None
+
+def mostra_estado():
+    """Desenha na matriz o icone do estado do agente, so quando o estado muda."""
+    global estado_na_matriz
+    if tracker.state != estado_na_matriz:
+        estado_na_matriz = tracker.state
+        Bridge.call("draw", ICONES[tracker.state])
+
 def on_results(results: dict):
     global events
     events += 1
     status = tracker.update(results)
+
+    if status == "ALERT_NEW" or status.startswith("ALERT_CLEARED"):
+        print(f"EVENTO {time.strftime('%H:%M:%S')}: {status}")
 
     if status == "ALERT_NEW":
         set_led(True)
@@ -103,9 +149,11 @@ def on_results(results: dict):
     else:
         set_led(False)            # padrao seguro: LED apagado
 
+    mostra_estado()               # a matriz acompanha o estado do agente
+
     if events % 50 == 0:
-        print(f"Estado: {tracker.state} | Alertas: {tracker.total_alerts} | "
-              f"Historico: {len(tracker.history)} observacoes")
+        print(f"Agente em {tracker.state} | {tracker.total_alerts} alertas ate agora | "
+              f"memoria: {len(tracker.history)} resultados")
 
 stream.on_detect_all(on_results)
 App.run()

@@ -1,6 +1,6 @@
 name: WS Lab 4 Desafio (partida)
 icon: 🧩
-description: "Workshop, ponto de partida do desafio do Lab 4: app da foto com o sketch do LED"
+description: "Workshop, ponto de partida do desafio do Lab 4: app da foto com o sketch do LED e da matriz"
 
 bricks:
   - arduino:web_ui

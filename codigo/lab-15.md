@@ -93,15 +93,37 @@ import threading
 tracker = DetectionTracker()
 led_on = False
 events = 0
-last_result_time = time.time()   # horario do ultimo resultado recebido
-WATCHDOG_TIMEOUT = 15.0          # segundos sem resultado para considerar falha
+last_result_time = None          # horario do ultimo resultado; o watchdog so vale depois do primeiro
+WATCHDOG_TIMEOUT = 5.0           # segundos sem resultado para considerar falha
 safe_mode = False
+
+# Aviso de falha: um X, que o watchdog faz piscar enquanto o modelo nao responde
+ICONES["FALHA"] = Frame.from_rows([
+    [7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7],
+    [0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+    [0, 0, 0, 0, 7, 7, 0, 7, 7, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 7, 7, 0, 7, 7, 0, 0, 0, 0],
+    [0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+    [7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7],
+]).to_board_bytes()
+pisca = False
 
 def set_led(state: bool):
     global led_on
     if state != led_on:
         led_on = state
         Bridge.call("set_led_state", state)
+
+estado_na_matriz = None
+
+def mostra_estado():
+    """Desenha na matriz o icone do estado do agente, so quando o estado muda."""
+    global estado_na_matriz
+    if tracker.state != estado_na_matriz:
+        estado_na_matriz = tracker.state
+        Bridge.call("draw", ICONES[tracker.state])
 
 def on_results(results: dict):
     global events, last_result_time
@@ -123,32 +145,43 @@ def on_results(results: dict):
     else:
         set_led(False)            # padrao seguro: LED apagado
 
+    mostra_estado()               # a matriz acompanha o estado do agente
+
     if events % 50 == 0:
-        print(f"Estado: {tracker.state} | Alertas: {tracker.total_alerts} | "
-              f"Historico: {len(tracker.history)} observacoes")
+        print(f"Agente em {tracker.state} | {tracker.total_alerts} alertas ate agora | "
+              f"memoria: {len(tracker.history)} resultados")
 
 def watchdog_check():
-    """Se o modelo parou de responder, leva o sistema para o estado seguro."""
-    global safe_mode, led_on
-    parado = time.time() - last_result_time > WATCHDOG_TIMEOUT
+    """Se o modelo parou de responder, leva o sistema para o estado seguro e avisa da falha."""
+    global safe_mode, led_on, estado_na_matriz, pisca
+    parado = (last_result_time is not None
+              and time.time() - last_result_time > WATCHDOG_TIMEOUT)
     if parado and not safe_mode:
         safe_mode = True
-        print(f"WATCHDOG {time.strftime('%H:%M:%S')}: sem resultados ha "
-              f"{WATCHDOG_TIMEOUT:.0f} s. Entrando em modo seguro.")
+        print(f"WATCHDOG {time.strftime('%H:%M:%S')}: FALHA, sem resultados ha "
+              f"{WATCHDOG_TIMEOUT:.0f} s (camera desconectada?). Entrando em modo seguro.")
         tracker.state = "IDLE"            # o agente esquece o alerta em curso
         tracker.presence_start = None     # e volta a exigir presenca sustentada
         led_on = False
         try:
-            Bridge.call("set_led_state", False)
+            Bridge.call("set_led_state", False)   # estado seguro: alarme desligado
         except Exception as e:
             print(f"WATCHDOG: falha ao falar com o MCU: {e}")
     elif not parado and safe_mode:
         safe_mode = False
         print(f"WATCHDOG {time.strftime('%H:%M:%S')}: resultados voltaram. Operacao normal.")
 
+    if safe_mode:                         # a falha fica visivel: um X piscando na matriz
+        pisca = not pisca
+        estado_na_matriz = "FALHA"        # faz mostra_estado() redesenhar quando os resultados voltarem
+        try:
+            Bridge.call("draw", ICONES["FALHA"] if pisca else bytes(104))
+        except Exception as e:
+            print(f"WATCHDOG: falha ao falar com o MCU: {e}")
+
 def watchdog_loop():
     while True:                           # roda em paralelo ao resto do app
-        time.sleep(5)
+        time.sleep(0.5)                   # confere duas vezes por segundo; e tambem o ritmo do X que pisca
         watchdog_check()
 
 threading.Thread(target=watchdog_loop, daemon=True).start()

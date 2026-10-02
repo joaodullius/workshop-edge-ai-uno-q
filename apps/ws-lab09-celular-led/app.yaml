@@ -1,6 +1,6 @@
 name: WS Lab 9 Celular e LED
 icon: 📽️
-description: "Workshop, gabarito do Lab 9 versão B: celular como câmera, contador e LED"
+description: "Workshop, gabarito do Lab 9 versão B: celular como câmera, contador, LED e matriz"
 
 ports:
   - 8080

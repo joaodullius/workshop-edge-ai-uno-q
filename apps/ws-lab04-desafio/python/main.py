@@ -14,6 +14,29 @@ import time
 
 object_detection = ObjectDetection()
 
+# Desenhos para a matriz de LED: 8 linhas x 13 colunas, brilho de 0 (apagado) a 7
+ROSTO_FELIZ = Frame.from_rows([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 7, 7, 0, 0, 0, 7, 7, 0, 0, 0],
+    [0, 0, 0, 7, 7, 0, 0, 0, 7, 7, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0],
+    [0, 0, 0, 7, 0, 0, 0, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]).to_board_bytes()
+
+XIS = Frame.from_rows([
+    [7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7],
+    [0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+    [0, 0, 0, 0, 7, 7, 0, 7, 7, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 7, 7, 0, 7, 7, 0, 0, 0, 0],
+    [0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+    [7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7],
+]).to_board_bytes()
+
 # Define a callback function to handle object detection requests from the UI.
 def on_detect_objects(client_id, data):
     """Callback function to handle object detection requests."""
@@ -39,6 +62,7 @@ def on_detect_objects(client_id, data):
 
         pessoa = any(d.get("class_name") == "person" for d in results.get("detection", []))
         Bridge.call("set_led_state", pessoa)
+        Bridge.call("draw", ROSTO_FELIZ if pessoa else XIS)
         print("Pessoa na foto:", pessoa, "-> LED", "aceso" if pessoa else "apagado")
 
         img_with_boxes = object_detection.draw_bounding_boxes(pil_image, results) # Draw bounding boxes around the detected objects in the input image

@@ -6,10 +6,10 @@ Copie daqui, e não do PDF do manual: no PDF as linhas longas são quebradas, e 
 | Arquivo | Laboratório | Blocos |
 |---|---|---|
 | [`lab-00.md`](lab-00.md) | Laboratório 0: Preparando-se | 6 |
-| [`lab-01.md`](lab-01.md) | Laboratório 1: Seu primeiro app e os fundamentos do App Lab | 6 |
+| [`lab-01.md`](lab-01.md) | Laboratório 1: Seu primeiro app e os fundamentos do App Lab | 10 |
 | [`lab-02.md`](lab-02.md) | Laboratório 2: Bricks do App Lab e IA em uma foto | 5 |
 | [`lab-03.md`](lab-03.md) | Laboratório 3: Os dois mundos, Linux e o MCU | 8 |
-| [`lab-04.md`](lab-04.md) | Laboratório 4: Comunicação entre processadores | 8 |
+| [`lab-04.md`](lab-04.md) | Laboratório 4: Comunicação entre processadores | 11 |
 | [`lab-05.md`](lab-05.md) | Laboratório 5: Laço de controle entre domínios | 3 |
 | [`lab-06.md`](lab-06.md) | Laboratório 6: Sensores Modulino e painel na nuvem | 11 |
 | [`lab-07.md`](lab-07.md) | Laboratório 7: Noções básicas de câmera e captura de imagem | 7 |

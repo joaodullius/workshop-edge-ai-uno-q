@@ -63,6 +63,7 @@ if [ "$AQUECER" != "aquecer" ]; then
   echo "Os apps foram copiados SEM aquecer. A primeira partida de cada app com sketch vai levar até 2 minutos,"
   echo "e o primeiro app de IA em uma placa nova baixa um container de quase 1 GB (de 5 a 10 minutos)."
   echo "Para uma aula, rode de novo com a opção de aquecer."
+  [ -n "$FALTOU" ] && echo "Dos apps copiados, $(echo $FALTOU | wc -w | tr -d " ") só iniciam com uma webcam ligada à placa (lista em trilhas.txt)."
 fi
 if [ -n "$FALTOU" ] && [ "$AQUECER" = "aquecer" ]; then
   echo

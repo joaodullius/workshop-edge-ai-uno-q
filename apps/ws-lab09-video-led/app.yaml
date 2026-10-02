@@ -1,6 +1,6 @@
 name: WS Lab 9 Detecção e LED
 icon: 🚨
-description: "Workshop, gabarito do Lab 9: o LED acende com pessoa na cena"
+description: "Workshop, gabarito do Lab 9: com pessoa na cena, o LED acende e a matriz mostra um boneco"
 
 bricks:
   - arduino:video_object_detection

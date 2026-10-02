@@ -66,10 +66,12 @@ detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)
 ui.on_message("override_th", lambda sid, threshold: detection_stream.override_threshold(threshold))
 
 contagem = 0
-inicio = time.time()
+inicio = None                                      # o relogio comeca no primeiro resultado
 
 def send_detections_to_ui(detections: dict):
-    global contagem
+    global contagem, inicio
+    if inicio is None:
+        inicio = time.time()
     contagem += 1
 
     for label, instances in detections.items():
@@ -120,10 +122,12 @@ ui.on_connect(lambda sid: ui.send_message("welcome", {
 ui.on_message("override_th", lambda sid, threshold: detection_stream.override_threshold(threshold))
 
 contagem = 0
-inicio = time.time()
+inicio = None                                      # o relogio comeca no primeiro resultado
 
 def send_detections_to_ui(detections: dict):
-    global contagem
+    global contagem, inicio
+    if inicio is None:
+        inicio = time.time()
     contagem += 1
 
     for label, instances in detections.items():
@@ -156,27 +160,46 @@ ls ~/ArduinoApps/vision-app/sketch
 **Passo 6** (sketch (C++))
 
 ```cpp
+// sketch/sketch.ino — LED e matriz de LED comandados pelo Python
 #include <Arduino_RouterBridge.h>
+#include <Arduino_LED_Matrix.h>
+#include <vector>
 
-void set_led_state(bool on) {
-    digitalWrite(LED_BUILTIN, on ? LOW : HIGH);   // LED_BUILTIN acende em LOW
+Arduino_LED_Matrix matrix;
+uint8_t frame[104] = {0};                 // o desenho atual: 8 linhas x 13 colunas, brilho de 0 a 7
+
+void set_led_state(bool state) {
+    digitalWrite(LED_BUILTIN, state ? LOW : HIGH);   // LED_BUILTIN acende em LOW
+}
+
+// Chamada pelo Python: recebe os 104 valores do desenho
+void draw(std::vector<uint8_t> newFrame) {
+    size_t len = min(newFrame.size(), sizeof(frame));
+    memcpy(frame, newFrame.data(), len);
 }
 
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
-    digitalWrite(LED_BUILTIN, HIGH);              // comeca apagado
+    digitalWrite(LED_BUILTIN, HIGH);      // comeca apagado
+    matrix.begin();
+    matrix.setGrayscaleBits(3);           // 3 bits de brilho: valores de 0 a 7
+    matrix.clear();
     Bridge.begin();
     Bridge.provide("set_led_state", set_led_state);
+    Bridge.provide("draw", draw);
 }
 
-void loop() {}
+void loop() {
+    matrix.draw(frame);                   // mostra o desenho atual
+    delay(10);
+}
 ```
 
 **Passo 7** (Python)
 
 ```python
-# python/main.py — deteccao ao vivo, contador e LED (versao A, webcam)
-from arduino.app_utils import App, Bridge
+# python/main.py — deteccao ao vivo, contador, LED e matriz (versao A, webcam)
+from arduino.app_utils import App, Bridge, Frame
 from arduino.app_bricks.web_ui import WebUI
 from arduino.app_bricks.video_objectdetection import VideoObjectDetection
 from datetime import datetime, UTC
@@ -187,15 +210,31 @@ detection_stream = VideoObjectDetection(confidence=0.5, debounce_sec=0.0)
 
 ui.on_message("override_th", lambda sid, threshold: detection_stream.override_threshold(threshold))
 
+# Desenho para a matriz de LED: 8 linhas x 13 colunas, brilho de 0 (apagado) a 7
+PESSOA = Frame.from_rows([
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 0],
+]).to_board_bytes()
+APAGADA = bytes(104)                               # 104 zeros: matriz apagada
+
 contagem = 0
-inicio = time.time()
+inicio = None                                      # o relogio comeca no primeiro resultado
 
 def send_detections_to_ui(detections: dict):
-    global contagem
+    global contagem, inicio
+    if inicio is None:
+        inicio = time.time()
     contagem += 1
 
     pessoa = "person" in detections
     Bridge.call("set_led_state", pessoa)           # AGIR: LED acende com pessoa na cena
+    Bridge.call("draw", PESSOA if pessoa else APAGADA)   # e a matriz mostra o boneco
     if pessoa:
         print("PESSOA DETECTADA - LED ligado")
 
@@ -237,8 +276,8 @@ cp -r ~/ArduinoApps/vision-app/sketch ~/ArduinoApps/vision-app-fast/
 **Passo 8** (Python)
 
 ```python
-# python/main.py — classificador de pessoa, contador e LED
-from arduino.app_utils import App, Bridge
+# python/main.py — classificador de pessoa, contador, LED e matriz
+from arduino.app_utils import App, Bridge, Frame
 from arduino.app_bricks.web_ui import WebUI
 from arduino.app_bricks.video_imageclassification import VideoImageClassification
 from datetime import datetime, UTC
@@ -250,16 +289,32 @@ detection_stream = VideoImageClassification(confidence=0.5, debounce_sec=0.0)
 
 ui.on_message("override_th", lambda sid, threshold: detection_stream.override_threshold(threshold))
 
+# Desenho para a matriz de LED: 8 linhas x 13 colunas, brilho de 0 (apagado) a 7
+PESSOA = Frame.from_rows([
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 0],
+]).to_board_bytes()
+APAGADA = bytes(104)                               # 104 zeros: matriz apagada
+
 contagem = 0
-inicio = time.time()
+inicio = None                                      # o relogio comeca no primeiro resultado
 
 def send_detections_to_ui(classifications: dict):
     # classifications: {"person": 0.90} ou {"non person": 0.97}
-    global contagem
+    global contagem, inicio
+    if inicio is None:
+        inicio = time.time()
     contagem += 1
 
     pessoa = "person" in classifications
     Bridge.call("set_led_state", pessoa)
+    Bridge.call("draw", PESSOA if pessoa else APAGADA)
 
     entradas = [{"content": label, "confidence": confidence,
                  "timestamp": datetime.now(UTC).isoformat()}

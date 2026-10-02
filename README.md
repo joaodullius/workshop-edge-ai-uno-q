@@ -59,9 +59,9 @@ Tempos medidos em uma placa:
 
 | Operação | Tempo |
 |---|---|
-| Copiar os 31 apps (trilha `completo`, sem aquecer) | cerca de 1 minuto |
-| Copiar e aquecer a trilha `1h` (5 apps) | cerca de 9 minutos |
-| Copiar e aquecer a trilha `1h-cam`, sem câmera na placa (3 apps aquecidos, 5 pulados) | cerca de 5 minutos |
+| Copiar os 32 apps (trilha `completo`, sem aquecer) | cerca de 1 min 30 s |
+| Copiar e aquecer a trilha `1h` (6 apps) | estimado em 11 minutos (9 minutos medidos quando a trilha tinha 5 apps) |
+| Copiar e aquecer a trilha `1h-cam`, sem câmera na placa (4 apps aquecidos, 5 pulados) | estimado em 7 minutos (5 minutos medidos com 3 apps aquecidos) |
 | Copiar e aquecer as trilhas `3h` e `3h-cam` | estimado em 15 a 20 minutos; não medido |
 | Copiar e aquecer a trilha `completo` | estimado em 50 minutos; não medido |
 | Primeira partida de um app com sketch | de 1 min 40 s a 2 min |
@@ -83,16 +83,17 @@ Observações:
 | Lab | App (pasta em `apps/`) | O que é | Precisa de | Rodado na placa |
 |---|---|---|---|---|
 | 0 | não há | preparação da placa e do computador; não tem código de app | | |
-| 1 | `ws-lab01-blink` | o Python pisca o LED do microcontrolador | | sim |
-| 1 | `ws-lab01-cloud` | Parte D: o painel do Arduino Cloud acende o LED | conta Arduino Cloud | inicia sem erro; painel não testado |
+| 1 | `ws-lab01-blink` | Parte A: o Python pisca o LED do microcontrolador | | sim |
+| 1 | `ws-lab01-matriz` | Parte B: o Python desenha uma figura na matriz de LED da placa | | sim |
+| 1 | `ws-lab01-cloud` | Parte E: o painel do Arduino Cloud acende o LED | conta Arduino Cloud | inicia sem erro; painel não testado |
 | 2 | `ws-lab02-webui` | Parte A: página web servida pela placa | | sim |
 | 2 | `ws-lab02-foto` | Parte C: detecção de objetos em uma foto enviada pelo navegador | | sim |
 | 3 | `ws-lab03-botao` | Parte B: o sketch lê um botão em D2 e acende o LED | botão ou jumper | inicia; botão não testado |
 | 3 | `ws-lab03-led` | Partes C e D: o Python pisca o LED pela Bridge | | sim |
 | 4 | `ws-lab04-bridge` | Partes A e B: funções do sketch chamadas pelo Python, com a latência medida | | sim |
 | 4 | `ws-lab04-monitor` | Partes C e D: laço de monitoramento e o MCU avisando o Python | | sim |
-| 4 | `ws-lab04-desafio-partida` | Parte E: ponto de partida do desafio (app da foto, já com o sketch do LED) | | sim |
-| 4 | `ws-lab04-desafio` | Parte E: gabarito, o LED acende quando a foto tem uma pessoa | | sim |
+| 4 | `ws-lab04-desafio-partida` | Parte E: ponto de partida do desafio (app da foto, já com o sketch do LED e da matriz) | | inicia; o desafio é escrever o Python |
+| 4 | `ws-lab04-desafio` | Parte E: gabarito. Com pessoa na foto, o LED acende e a matriz mostra um rosto feliz; sem pessoa, um X | | sim |
 | 5 | `ws-lab05-laco-simples` | Parte B: laço de controle com três chamadas por ciclo | servo e potenciômetro, opcionais | sim, sem servo |
 | 5 | `ws-lab05-laco` | Parte C: três formas de fechar o mesmo laço | servo e potenciômetro, opcionais | sim, sem servo |
 | 6 | `ws-lab06-thermo` | Parte A: o MCU lê o Modulino Thermo | Modulino Thermo | sim, sem o sensor (leituras em zero) |
@@ -103,22 +104,26 @@ Observações:
 | 7 | `ws-lab07-fps` | mede a taxa de captura | webcam | não |
 | 7 | `ws-lab07-pixels` | pixels, ordem BGR e escala de cinza | webcam | não |
 | 8 | `ws-lab08-classificacao` | classificação em vídeo, com a sonda `ws_probe.py` na pasta do app | webcam | não |
-| 8 e 9 | `ws-lab09-video` | detecção de objetos ao vivo, ponto de partida | webcam | não |
-| 8 e 9 | `ws-lab09-pessoa` | classificador de pessoa, com contador e LED | webcam | não |
-| 9 | `ws-lab09-video-led` | Parte C: gabarito, o LED acende com uma pessoa na cena | webcam | não |
+| 8 e 9 | `ws-lab09-video` | detecção de objetos ao vivo, ponto de partida; traz a sonda `ws_probe.py` | webcam | não (o mesmo app com LED e matriz rodou) |
+| 8 e 9 | `ws-lab09-pessoa` | classificador de pessoa, com contador, LED e um boneco na matriz | webcam | sim, com webcam |
+| 9 | `ws-lab09-video-led` | Parte C: gabarito. Com uma pessoa na cena, o LED acende e a matriz mostra um boneco | webcam | sim, com webcam |
 | 9 | `ws-lab09-celular` | versão B: detecção com o vídeo do celular, ponto de partida | celular com Arduino IoT Remote | inicia e mostra o QR; pareamento não testado |
-| 9 | `ws-lab09-celular-led` | versão B: gabarito com contador e LED | celular com Arduino IoT Remote | inicia; pareamento não testado |
+| 9 | `ws-lab09-celular-led` | versão B: gabarito com contador, LED e matriz | celular com Arduino IoT Remote | inicia; pareamento não testado |
 | 10 | `scripts/lab10/` | `tamanho.py` e `resolucao.py`: cálculos de memória de modelos | | sim |
-| 11 | `ws-lab11-meu-detector` | app para o modelo treinado no Edge Impulse; o `.eim` é importado pelo App Lab | webcam, conta Edge Impulse | não |
-| 12 | não há | usa o app do Laboratório 11 e a sonda do Laboratório 8 | | |
+| 11 | `ws-lab11-meu-detector` | app para o modelo treinado no Edge Impulse; o `.eim` é importado pelo App Lab. Traz a sonda `ws_probe.py` | webcam, conta Edge Impulse | não |
+| 12 | não há | usa o app do Laboratório 11, que já traz a sonda do Laboratório 8 | | |
 | 13 | `ws-lab13-deploy` | gabarito do app completo: detecção, página web, LED e relatório | webcam | não |
 | 13 | `ws-lab13-monitor` | Parte D: CPU e memória com `psutil`, instalado pelo `requirements.txt` | internet na placa | sim |
-| 14 | `ws-lab14-agente` | gabarito do agente de borda | webcam | não |
+| 14 | `ws-lab14-agente` | gabarito do agente de borda, um alarme de presença; a matriz mostra o estado (dois olhos, triângulo de aviso, pausa) | webcam | sim, com webcam |
 | 15 | `ws-lab15-benchmark` | Parte A: intervalo entre resultados, com P95 e P99 | webcam | não |
-| 15 | `ws-lab15-agente-watchdog` | Parte C: o agente com watchdog e estado seguro | webcam | não |
+| 15 | `ws-lab15-agente-watchdog` | Parte C: o agente com watchdog. Sem resultados por 5 s, desliga o alarme e pisca um X na matriz | webcam | sim, com webcam (cabo desligado e religado) |
 | 15 | `scripts/lab15/monitor.sh` | Parte B: registra CPU, memória e temperatura; roda no terminal da placa | | sim |
 
-O código de cada amostra é o mesmo dos blocos de código do manual; as que são cópia direta de um exemplo oficial mantêm os comentários originais, em inglês. Os apps que precisam de webcam foram verificados quanto ao código e à compilação do sketch; sem câmera, a placa responde `No Camera Device Found` ao tentar iniciá-los (nos do Laboratório 7, o erro `CameraOpenError` aparece no console).
+O código de cada amostra é o mesmo dos blocos de código do manual; as que são cópia direta de um exemplo oficial mantêm os comentários originais, em inglês. Os apps marcados "sim, com webcam" rodaram com uma Logitech BRIO e uma pessoa na cena, com a matriz e o LED conferidos a olho. Os demais apps que precisam de webcam foram verificados quanto ao código e à compilação do sketch; sem câmera, a placa responde `No Camera Device Found` ao tentar iniciá-los (nos do Laboratório 7, o erro `CameraOpenError` aparece no console).
+
+## A matriz de LED
+
+A matriz de LED da placa (8 linhas por 13 colunas) aparece em quatro pontos do material: o aluno desenha uma figura no Laboratório 1; o desafio do Laboratório 4 mostra um rosto feliz ou um X conforme a foto; no Laboratório 9 um boneco aparece enquanto há uma pessoa na cena; e nos Laboratórios 14 e 15 a matriz mostra o estado do agente. O desenho é sempre uma grade de números no Python, enviada ao microcontrolador pela Bridge.
 
 ## Hardware
 

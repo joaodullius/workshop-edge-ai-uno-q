@@ -4,7 +4,7 @@ import string
 import time
 from datetime import datetime, UTC
 
-from arduino.app_utils import App, Bridge
+from arduino.app_utils import App, Bridge, Frame
 from arduino.app_bricks.web_ui import WebUI
 from arduino.app_bricks.video_objectdetection import VideoObjectDetection
 from arduino.app_peripherals.camera import WebSocketCamera
@@ -24,15 +24,31 @@ ui.on_connect(lambda sid: ui.send_message("welcome", {
     "protocol": camera.protocol, "ip": camera.ip, "port": camera.port}))
 ui.on_message("override_th", lambda sid, threshold: detection_stream.override_threshold(threshold))
 
+# Desenho para a matriz de LED: 8 linhas x 13 colunas, brilho de 0 (apagado) a 7
+PESSOA = Frame.from_rows([
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0, 0],
+]).to_board_bytes()
+APAGADA = bytes(104)                               # 104 zeros: matriz apagada
+
 contagem = 0
-inicio = time.time()
+inicio = None                                      # o relogio comeca no primeiro resultado
 
 def send_detections_to_ui(detections: dict):
-    global contagem
+    global contagem, inicio
+    if inicio is None:
+        inicio = time.time()
     contagem += 1
 
     pessoa = "person" in detections
     Bridge.call("set_led_state", pessoa)           # AGIR: LED acende com pessoa na cena
+    Bridge.call("draw", PESSOA if pessoa else APAGADA)   # e a matriz mostra o boneco
     if pessoa:
         print("PESSOA DETECTADA - LED ligado")
 
