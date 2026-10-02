@@ -1,0 +1,6 @@
+name: WS Lab 6 Sensores na nuvem
+icon: ☁️
+description: "Workshop, Lab 6 Parte D: médias e alertas publicados no Arduino Cloud"
+
+bricks:
+  - arduino:arduino_cloud

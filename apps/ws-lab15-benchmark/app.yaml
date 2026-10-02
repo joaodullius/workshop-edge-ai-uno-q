@@ -1,0 +1,7 @@
+name: WS Lab 15 Benchmark
+icon: ⏱️
+description: "Workshop, Lab 15 Parte A: intervalo entre resultados, com P95 e P99"
+
+bricks:
+  - arduino:video_image_classification:
+      model: person-classification

@@ -1,0 +1,7 @@
+name: WS Lab 11 Meu detector
+icon: 🎯
+description: "Workshop, Lab 11: detecção ao vivo com o modelo treinado, com as detecções no console"
+
+bricks:
+  - arduino:video_object_detection
+  - arduino:web_ui

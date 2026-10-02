@@ -1,0 +1,5 @@
+name: WS Lab 6 Modulino Thermo
+icon: 🌡️
+description: "Workshop, Lab 6 Parte A: o MCU lê o Modulino Thermo e envia ao Python"
+
+bricks: []

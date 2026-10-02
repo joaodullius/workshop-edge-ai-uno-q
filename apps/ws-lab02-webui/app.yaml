@@ -1,0 +1,6 @@
+name: WS Lab 2 Página web
+icon: 💡
+description: "Workshop, Lab 2 Parte A: página servida pela placa com o Brick Web UI"
+
+bricks:
+  - arduino:web_ui

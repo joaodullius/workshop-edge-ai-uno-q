@@ -1,0 +1,6 @@
+name: WS Lab 1 LED pelo Arduino Cloud
+icon: ☁️
+description: "Workshop, Lab 1 Parte D: o painel do Arduino Cloud acende o LED da placa"
+
+bricks:
+  - arduino:arduino_cloud

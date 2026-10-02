@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>My First Brick App</title></head>
+<body>
+<h1>Hello from UNO Q!</h1>
+<p>This web page is served directly from your Arduino board.</p>
+<p>Hora no seu navegador: <span id="time"></span></p>
+<script>
+setInterval(() => {
+  document.getElementById('time').textContent = new Date().toLocaleTimeString();
+}, 1000);
+</script>
+</body>
+</html>

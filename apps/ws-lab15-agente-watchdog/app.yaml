@@ -1,0 +1,7 @@
+name: WS Lab 15 Agente com watchdog
+icon: 🛡️
+description: "Workshop, Lab 15 Parte C: agente de borda com watchdog e estado seguro"
+
+bricks:
+  - arduino:video_image_classification:
+      model: person-classification

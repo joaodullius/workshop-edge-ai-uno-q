@@ -1,0 +1,6 @@
+name: WS Lab 8 Custo do modelo
+icon: 🎥
+description: "Workshop, Lab 8: classificação em vídeo, com a sonda ws_probe.py"
+
+bricks:
+  - arduino:video_image_classification
