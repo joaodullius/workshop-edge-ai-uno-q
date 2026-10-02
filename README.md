@@ -4,6 +4,7 @@ Material de apoio para o workshop de Edge AI com a placa Arduino UNO Q 4GB:
 
 - **`manual/`**: o Manual do Laboratório de IA Edge 1, com 16 laboratórios (PDF);
 - **`slides/`**: os slides dos 16 laboratórios, em PDF, na mesma ordem do manual;
+- **`codigo/`**: todos os blocos de código do manual, um arquivo por laboratório, prontos para copiar (no PDF as linhas longas são quebradas);
 - **`apps/`**: apps prontos do Arduino App Lab, com amostras para todos os laboratórios que têm código de app;
 - **`scripts/`**: os scripts dos laboratórios que não rodam como app (Laboratórios 10 e 15);
 - **`instalar_kit.sh`** e **`instalar_kit.py`**: instaladores que copiam os apps para uma placa e a deixam pronta para a aula;
@@ -60,6 +61,9 @@ Tempos medidos em uma placa:
 |---|---|
 | Copiar os 31 apps (trilha `completo`, sem aquecer) | cerca de 1 minuto |
 | Copiar e aquecer a trilha `1h` (5 apps) | cerca de 9 minutos |
+| Copiar e aquecer a trilha `1h-cam`, sem câmera na placa (3 apps aquecidos, 5 pulados) | cerca de 5 minutos |
+| Copiar e aquecer as trilhas `3h` e `3h-cam` | estimado em 15 a 20 minutos; não medido |
+| Copiar e aquecer a trilha `completo` | estimado em 50 minutos; não medido |
 | Primeira partida de um app com sketch | de 1 min 40 s a 2 min |
 | Primeira partida de um app com a biblioteca Modulino (Laboratório 6) | cerca de 4 min 40 s |
 
