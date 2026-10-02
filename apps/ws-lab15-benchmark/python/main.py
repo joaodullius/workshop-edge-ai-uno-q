@@ -7,7 +7,7 @@ stream = VideoImageClassification(confidence=0.3, debounce_sec=0.0)
 # Um benchmark justo descarta o inicio (modelo carregando, caches frios)
 # e mede um numero fixo de resultados em regime.
 WARMUP = 30          # resultados descartados no inicio
-MEASURE = 300        # resultados medidos (cerca de 30 s a 10 resultados/s)
+MEASURE = 300        # resultados medidos (de 30 a 60 s, conforme a webcam)
 
 timestamps = []      # instante de chegada de cada resultado medido
 count = 0

@@ -60,8 +60,9 @@ Tempos medidos em uma placa:
 | Operação | Tempo |
 |---|---|
 | Copiar os 32 apps (trilha `completo`, sem aquecer) | cerca de 1 min 30 s |
-| Copiar e aquecer a trilha `1h` (6 apps) | estimado em 11 minutos (9 minutos medidos quando a trilha tinha 5 apps) |
-| Copiar e aquecer a trilha `1h-cam`, sem câmera na placa (4 apps aquecidos, 5 pulados) | estimado em 7 minutos (5 minutos medidos com 3 apps aquecidos) |
+| Copiar e aquecer a trilha `1h` (6 apps) | cerca de 11 minutos |
+| Copiar e aquecer a trilha `1h-cam`, com a webcam ligada (9 apps aquecidos) | cerca de 13 min 30 s |
+| Copiar e aquecer a trilha `1h-cam`, sem câmera na placa (4 apps aquecidos, 5 pulados) | estimado em 7 minutos; não medido |
 | Copiar e aquecer as trilhas `3h` e `3h-cam` | estimado em 15 a 20 minutos; não medido |
 | Copiar e aquecer a trilha `completo` | estimado em 50 minutos; não medido |
 | Primeira partida de um app com sketch | de 1 min 40 s a 2 min |
@@ -73,6 +74,7 @@ Observações:
 - Os apps que usam webcam só iniciam com a câmera ligada à placa. Se o instalador não encontra uma câmera, ele copia esses apps, não os aquece e lista no fim quais ficaram faltando. Com a placa já no hub e a webcam conectada, rode o instalador de novo com a opção de aquecer (ou inicie cada um uma vez pelo App Lab): os que têm sketch levam quase 2 minutos na primeira partida. A lista desses apps está em `trilhas.txt`.
 - Rodar o instalador de novo devolve os apps `ws-…` ao estado original. Use isso entre uma turma e outra, sempre com a opção de aquecer: a reinstalação apaga também o sketch já compilado de cada app, e sem aquecer a primeira partida de cada um volta a levar de 1 min 40 s a 2 min.
 - Durante o aquecimento o instalador fica até 2 minutos sem imprimir nada em cada app. É a compilação do sketch.
+- Se um app não iniciar no aquecimento, o instalador mostra a mensagem de erro dele e o lista de novo no fim, depois do "Pronto". Quando encontra uma webcam, ele avisa que os apps de vídeo também serão aquecidos.
 - Sem a opção de aquecer, o instalador só copia os arquivos (cerca de 15 segundos para a trilha `3h`). Serve para atualizar os apps, não para preparar uma aula: a primeira partida de cada app vai compilar o sketch, e em uma placa nova o primeiro app de IA baixa o container do modelo, o que leva de 5 a 10 minutos.
 - O instalador só mexe nos apps da trilha pedida. Apps `ws-…` de outra trilha, instalados antes, continuam na placa como estavam; para atualizar todos, use a trilha `completo`.
 
@@ -123,7 +125,7 @@ O código de cada amostra é o mesmo dos blocos de código do manual; as que sã
 
 ## A matriz de LED
 
-A matriz de LED da placa (8 linhas por 13 colunas) aparece em quatro pontos do material: o aluno desenha uma figura no Laboratório 1; o desafio do Laboratório 4 mostra um rosto feliz ou um X conforme a foto; no Laboratório 9 um boneco aparece enquanto há uma pessoa na cena; e nos Laboratórios 14 e 15 a matriz mostra o estado do agente. O desenho é sempre uma grade de números no Python, enviada ao microcontrolador pela Bridge.
+A matriz de LED da placa (8 linhas por 13 colunas) aparece em cinco laboratórios: o aluno desenha uma figura no Laboratório 1; o desafio do Laboratório 4 mostra um rosto feliz ou um X conforme a foto; no Laboratório 9 um boneco aparece enquanto há uma pessoa na cena; e nos Laboratórios 14 e 15 a matriz mostra o estado do agente. O desenho é sempre uma grade de números no Python, enviada ao microcontrolador pela Bridge.
 
 ## Hardware
 

@@ -33,6 +33,7 @@ WEBCAM=" $(lista precisa-de-webcam) "
 
 echo "Placa: $PLACA   trilha: $TRILHA"
 FALTOU=""
+NAO_INICIOU=""
 TOTAL=$(echo $APPS | wc -w | tr -d " ")
 K=0
 for a in $APPS; do
@@ -48,16 +49,29 @@ done
 if [ "$AQUECER" = "aquecer" ]; then
   # Há uma câmera ligada à placa? (o decodificador Venus aparece como dispositivo de vídeo, mas não é câmera)
   CAMERAS=$(ssh "arduino@$PLACA" "v4l2-ctl --list-devices 2>/dev/null | grep -v '^[[:space:]]' | grep -v -i venus | grep -c . || true")
-  [ "${CAMERAS:-0}" -gt 0 ] 2>/dev/null && FALTOU=""
+  if [ "${CAMERAS:-0}" -gt 0 ] 2>/dev/null; then
+    [ -n "$FALTOU" ] && echo "Webcam encontrada na placa: os apps de vídeo também serão aquecidos."
+    FALTOU=""
+  fi
   K=0
   for a in $APPS; do
     K=$((K+1))
     case " $FALTOU " in *" $a "*) echo "[$K/$TOTAL] pulado (precisa de webcam, e a placa não está vendo nenhuma): $a"; continue ;; esac
-    echo "[$K/$TOTAL] aquecendo $a ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)"
-    ssh "arduino@$PLACA" "arduino-app-cli app start user:$a 2>&1 | tail -1; sleep 8; arduino-app-cli app stop user:$a 2>&1 | tail -1" || true
+    case "$a" in ws-lab06-*) ESPERA="cerca de 5 minutos: compila a biblioteca Modulino" ;; *) ESPERA="até 2 minutos" ;; esac
+    echo "[$K/$TOTAL] aquecendo $a ... ($ESPERA)"
+    SAIDA=$(ssh "arduino@$PLACA" "arduino-app-cli app start user:$a 2>&1 | tail -1; sleep 8; arduino-app-cli app stop user:$a 2>&1 | tail -1" || true)
+    echo "$SAIDA"
+    # sem a linha "started successfully" o app não chegou a iniciar: entra no resumo do fim
+    case "$SAIDA" in *"started successfully"*) ;; *) NAO_INICIOU="$NAO_INICIOU $a" ;; esac
   done
 fi
 echo "Pronto. Os apps aparecem em My Apps, no App Lab, com nomes que começam por WS."
+if [ -n "$NAO_INICIOU" ]; then
+  echo
+  echo "ATENÇÃO: estes apps NÃO iniciaram no aquecimento (veja a mensagem de cada um, acima):"
+  for a in $NAO_INICIOU; do echo "  $a"; done
+  echo "Inicie cada um pelo App Lab para ver o erro no console, corrija e rode o instalador de novo."
+fi
 if [ "$AQUECER" != "aquecer" ]; then
   echo
   echo "Os apps foram copiados SEM aquecer. A primeira partida de cada app com sketch vai levar até 2 minutos,"

@@ -96,22 +96,34 @@ def main():
         print(f"[{k}/{len(apps)}] copiado {app}", flush=True)
 
     faltou = [a for a in apps if a in webcam]
+    nao_iniciou = []
     if aquecer:
         # Há uma câmera ligada à placa? (o decodificador Venus aparece como dispositivo de vídeo, mas não é câmera)
         cameras = rodar(["ssh", alvo, "v4l2-ctl --list-devices 2>/dev/null | grep -v '^[[:space:]]' | grep -v -i venus | grep -c . || true"],
                         tolerar_erro=True)
         tem_camera = cameras.strip().isdigit() and int(cameras.strip()) > 0
         if tem_camera:
+            if faltou:
+                print("Webcam encontrada na placa: os apps de vídeo também serão aquecidos.")
             faltou = []
         for k, app in enumerate(apps, 1):
             if app in webcam and not tem_camera:
                 print(f"[{k}/{len(apps)}] pulado (precisa de webcam, e a placa não está vendo nenhuma): {app}")
                 continue
-            print(f"[{k}/{len(apps)}] aquecendo {app} ... (até 2 minutos por app; cerca de 5 nos apps do Laboratório 6)", flush=True)
-            print(rodar(["ssh", alvo, f"arduino-app-cli app start user:{app} 2>&1 | tail -1; sleep 8; "
-                                      f"arduino-app-cli app stop user:{app} 2>&1 | tail -1"], tolerar_erro=True), flush=True)
+            espera = "cerca de 5 minutos: compila a biblioteca Modulino" if app.startswith("ws-lab06-") else "até 2 minutos"
+            print(f"[{k}/{len(apps)}] aquecendo {app} ... ({espera})", flush=True)
+            saida = rodar(["ssh", alvo, f"arduino-app-cli app start user:{app} 2>&1 | tail -1; sleep 8; "
+                                        f"arduino-app-cli app stop user:{app} 2>&1 | tail -1"], tolerar_erro=True)
+            print(saida, flush=True)
+            if "started successfully" not in saida:    # o app não chegou a iniciar: entra no resumo do fim
+                nao_iniciou.append(app)
 
     print("Pronto. Os apps aparecem em My Apps, no App Lab, com nomes que começam por WS.")
+    if nao_iniciou:
+        print("\nATENÇÃO: estes apps NÃO iniciaram no aquecimento (veja a mensagem de cada um, acima):")
+        for app in nao_iniciou:
+            print(f"  {app}")
+        print("Inicie cada um pelo App Lab para ver o erro no console, corrija e rode o instalador de novo.")
     if not aquecer:
         print("\nOs apps foram copiados SEM aquecer. A primeira partida de cada app com sketch vai levar até 2 minutos,\n"
               "e o primeiro app de IA em uma placa nova baixa um container de quase 1 GB (de 5 a 10 minutos).\n"
