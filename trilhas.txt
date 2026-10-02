@@ -1,9 +1,9 @@
 # Apps de cada trilha do workshop. Formato:  <trilha>: <app> <app> ...
 # A trilha "completo" não aparece aqui: ela instala tudo o que há em apps/.
 1h: ws-lab01-blink ws-lab02-foto ws-lab04-bridge ws-lab04-desafio-partida ws-lab04-desafio
-1h-cam: ws-lab01-blink ws-lab09-video ws-lab09-celular ws-lab09-celular-led ws-lab09-pessoa ws-lab09-video-led ws-lab14-agente
+1h-cam: ws-lab01-blink ws-lab08-classificacao ws-lab09-video ws-lab09-celular ws-lab09-celular-led ws-lab09-pessoa ws-lab09-video-led ws-lab14-agente
 3h: ws-lab01-blink ws-lab02-webui ws-lab02-foto ws-lab03-led ws-lab04-bridge ws-lab04-monitor ws-lab04-desafio-partida ws-lab04-desafio ws-lab05-laco
-3h-cam: ws-lab01-blink ws-lab02-foto ws-lab04-bridge ws-lab04-desafio-partida ws-lab04-desafio ws-lab09-video ws-lab09-celular ws-lab09-celular-led ws-lab09-pessoa ws-lab09-video-led ws-lab14-agente
+3h-cam: ws-lab01-blink ws-lab02-foto ws-lab04-bridge ws-lab04-desafio-partida ws-lab04-desafio ws-lab08-classificacao ws-lab09-video ws-lab09-celular ws-lab09-celular-led ws-lab09-pessoa ws-lab09-video-led ws-lab14-agente
 
 # Apps que só iniciam com uma webcam ligada à placa. O aquecimento pula estes.
 precisa-de-webcam: ws-lab07-captura ws-lab07-fps ws-lab07-pixels ws-lab08-classificacao ws-lab09-video ws-lab09-video-led ws-lab09-pessoa ws-lab11-meu-detector ws-lab13-deploy ws-lab14-agente ws-lab15-benchmark ws-lab15-agente-watchdog

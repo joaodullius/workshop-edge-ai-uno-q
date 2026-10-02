@@ -66,7 +66,7 @@ Tempos medidos em uma placa:
 Observações:
 
 - A cópia pede a senha do usuário `arduino` a cada app, a menos que a chave SSH do seu computador esteja instalada na placa.
-- Os apps que usam webcam não iniciam sem a câmera ligada. O instalador só os copia e avisa; com a placa já no hub e a webcam conectada, inicie cada um uma vez pelo App Lab. A lista desses apps está em `trilhas.txt`.
+- Os apps que usam webcam só iniciam com a câmera ligada à placa. Se o instalador não encontra uma câmera, ele copia esses apps, não os aquece e lista no fim quais ficaram faltando. Com a placa já no hub e a webcam conectada, rode o instalador de novo com a opção de aquecer (ou inicie cada um uma vez pelo App Lab): os que têm sketch levam quase 2 minutos na primeira partida. A lista desses apps está em `trilhas.txt`.
 - Rodar o instalador de novo devolve os apps `ws-…` ao estado original. Use isso entre uma turma e outra, sempre com a opção de aquecer: a reinstalação apaga também o sketch já compilado de cada app, e sem aquecer a primeira partida de cada um volta a levar de 1 min 40 s a 2 min.
 - Durante o aquecimento o instalador fica até 2 minutos sem imprimir nada em cada app. É a compilação do sketch.
 
