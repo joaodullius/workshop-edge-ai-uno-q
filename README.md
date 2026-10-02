@@ -109,8 +109,8 @@ Observações:
 | 8 e 9 | `ws-lab09-video` | detecção de objetos ao vivo, ponto de partida; traz a sonda `ws_probe.py` | webcam | não (o mesmo app com LED e matriz rodou) |
 | 8 e 9 | `ws-lab09-pessoa` | classificador de pessoa, com contador, LED e um boneco na matriz | webcam | sim, com webcam |
 | 9 | `ws-lab09-video-led` | Parte C: gabarito. Com uma pessoa na cena, o LED acende e a matriz mostra um boneco | webcam | sim, com webcam |
-| 9 | `ws-lab09-celular` | versão B: detecção com o vídeo do celular, ponto de partida | celular com Arduino IoT Remote | inicia e mostra o QR; pareamento não testado |
-| 9 | `ws-lab09-celular-led` | versão B: gabarito com contador, LED e matriz | celular com Arduino IoT Remote | inicia; pareamento não testado |
+| 9 | `ws-lab09-celular` | versão B: detecção com o vídeo do celular, ponto de partida | celular com Arduino IoT Remote | inicia e mostra a senha de pareamento; o mesmo app com LED e matriz rodou com um celular |
+| 9 | `ws-lab09-celular-led` | versão B: gabarito com contador, LED e matriz | celular com Arduino IoT Remote | sim, com um celular Android |
 | 10 | `scripts/lab10/` | `tamanho.py` e `resolucao.py`: cálculos de memória de modelos | | sim |
 | 11 | `ws-lab11-meu-detector` | app para o modelo treinado no Edge Impulse; o `.eim` é importado pelo App Lab. Traz a sonda `ws_probe.py` | webcam, conta Edge Impulse | não |
 | 12 | não há | usa o app do Laboratório 11, que já traz a sonda do Laboratório 8 | | |
