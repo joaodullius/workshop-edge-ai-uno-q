@@ -1,0 +1,12 @@
+name: WS Lab 9 Celular como câmera
+icon: 📽️
+description: "Workshop, Lab 9 versão B: detecção de objetos no vídeo do celular"
+
+ports:
+  - 8080
+
+bricks:
+  - arduino:video_object_detection:
+      devices:
+        - remote_camera_0
+  - arduino:web_ui

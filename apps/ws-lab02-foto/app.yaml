@@ -1,0 +1,7 @@
+name: WS Lab 2 IA em uma foto
+icon: 🏞️
+description: "Workshop, Lab 2: detecção de objetos em uma foto enviada pelo navegador"
+
+bricks:
+  - arduino:web_ui
+  - arduino:object_detection

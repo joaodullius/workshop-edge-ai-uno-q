@@ -1,0 +1,5 @@
+name: WS Lab 1 Blink
+icon: 🔴
+description: "Workshop, Lab 1: o Python pisca o LED do MCU pela Bridge"
+
+bricks: []

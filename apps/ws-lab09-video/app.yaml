@@ -1,0 +1,7 @@
+name: WS Lab 9 Detecção ao vivo
+icon: 📽️
+description: "Workshop, Lab 9 versão A: detecção de objetos em vídeo de webcam"
+
+bricks:
+  - arduino:video_object_detection
+  - arduino:web_ui

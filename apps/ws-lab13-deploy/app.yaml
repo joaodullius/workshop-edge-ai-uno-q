@@ -1,0 +1,7 @@
+name: WS Lab 13 Sistema completo
+icon: 📊
+description: "Workshop, gabarito do Lab 13: detecção, página web, LED e relatório periódico"
+
+bricks:
+  - arduino:video_object_detection
+  - arduino:web_ui

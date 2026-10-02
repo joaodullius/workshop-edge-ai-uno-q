@@ -1,0 +1,12 @@
+name: WS Lab 9 Celular e LED
+icon: 📽️
+description: "Workshop, gabarito do Lab 9 versão B: celular como câmera, contador e LED"
+
+ports:
+  - 8080
+
+bricks:
+  - arduino:video_object_detection:
+      devices:
+        - remote_camera_0
+  - arduino:web_ui

@@ -1,0 +1,7 @@
+name: WS Lab 4 Desafio foto e LED
+icon: 💡
+description: "Workshop, gabarito do desafio do Lab 4: o LED acende quando a foto tem uma pessoa"
+
+bricks:
+  - arduino:web_ui
+  - arduino:object_detection

@@ -1,0 +1,7 @@
+name: WS Lab 14 Agente de borda
+icon: 🧠
+description: "Workshop, gabarito do Lab 14: alerta só com presença sustentada"
+
+bricks:
+  - arduino:video_image_classification:
+      model: person-classification

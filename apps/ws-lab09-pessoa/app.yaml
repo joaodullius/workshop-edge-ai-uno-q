@@ -1,0 +1,8 @@
+name: WS Lab 9 Classificador de pessoa
+icon: 🚶
+description: "Workshop, gabarito do Lab 9: modelo leve de classificação de pessoa com LED"
+
+bricks:
+  - arduino:video_image_classification:
+      model: person-classification
+  - arduino:web_ui
