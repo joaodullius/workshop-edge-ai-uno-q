@@ -110,7 +110,11 @@ def main():
                                       f"arduino-app-cli app stop user:{app} 2>&1 | tail -1"], tolerar_erro=True), flush=True)
 
     print("Pronto. Os apps aparecem em My Apps, no App Lab, com nomes que começam por WS.")
-    if faltou:
+    if not aquecer:
+        print("\nOs apps foram copiados SEM aquecer. A primeira partida de cada app com sketch vai levar até 2 minutos,\n"
+              "e o primeiro app de IA em uma placa nova baixa um container de quase 1 GB (de 5 a 10 minutos).\n"
+              "Para uma aula, rode de novo com a opção de aquecer.")
+    if faltou and aquecer:
         print("\nATENÇÃO: estes apps usam webcam e NÃO foram aquecidos:")
         for app in faltou:
             print(f"  {app}")

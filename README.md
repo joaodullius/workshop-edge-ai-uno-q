@@ -69,6 +69,8 @@ Observações:
 - Os apps que usam webcam só iniciam com a câmera ligada à placa. Se o instalador não encontra uma câmera, ele copia esses apps, não os aquece e lista no fim quais ficaram faltando. Com a placa já no hub e a webcam conectada, rode o instalador de novo com a opção de aquecer (ou inicie cada um uma vez pelo App Lab): os que têm sketch levam quase 2 minutos na primeira partida. A lista desses apps está em `trilhas.txt`.
 - Rodar o instalador de novo devolve os apps `ws-…` ao estado original. Use isso entre uma turma e outra, sempre com a opção de aquecer: a reinstalação apaga também o sketch já compilado de cada app, e sem aquecer a primeira partida de cada um volta a levar de 1 min 40 s a 2 min.
 - Durante o aquecimento o instalador fica até 2 minutos sem imprimir nada em cada app. É a compilação do sketch.
+- Sem a opção de aquecer, o instalador só copia os arquivos (cerca de 15 segundos para a trilha `3h`). Serve para atualizar os apps, não para preparar uma aula: a primeira partida de cada app vai compilar o sketch, e em uma placa nova o primeiro app de IA baixa o container do modelo, o que leva de 5 a 10 minutos.
+- O instalador só mexe nos apps da trilha pedida. Apps `ws-…` de outra trilha, instalados antes, continuam na placa como estavam; para atualizar todos, use a trilha `completo`.
 
 ## Amostras por laboratório
 

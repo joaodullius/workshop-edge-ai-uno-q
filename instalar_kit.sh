@@ -52,7 +52,13 @@ if [ "$AQUECER" = "aquecer" ]; then
   done
 fi
 echo "Pronto. Os apps aparecem em My Apps, no App Lab, com nomes que começam por WS."
-if [ -n "$FALTOU" ]; then
+if [ "$AQUECER" != "aquecer" ]; then
+  echo
+  echo "Os apps foram copiados SEM aquecer. A primeira partida de cada app com sketch vai levar até 2 minutos,"
+  echo "e o primeiro app de IA em uma placa nova baixa um container de quase 1 GB (de 5 a 10 minutos)."
+  echo "Para uma aula, rode de novo com a opção de aquecer."
+fi
+if [ -n "$FALTOU" ] && [ "$AQUECER" = "aquecer" ]; then
   echo
   echo "ATENÇÃO: estes apps usam webcam e NÃO foram aquecidos:"
   for a in $FALTOU; do echo "  $a"; done
